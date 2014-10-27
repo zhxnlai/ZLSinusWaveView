@@ -7,7 +7,11 @@ A Siri like voice visualization view using EZAudio. Modified from [SISinusWaveVi
 
 Dependencies
 ---
-ZLSinusWaveView is a subclass of EZAudioPlot. It requires [EZAudio](https://github.com/syedhali/EZAudio).
+ZLSinusWaveView is a subclass of `EZAudioPlot`. It requires [EZAudio](https://github.com/syedhali/EZAudio).
+
+License
+---
+ZLSinusWaveView is available under the BSD license.
 
 Copyright (c) 2014, Zhixuan Lai
 All rights reserved.
