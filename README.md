@@ -9,3 +9,5 @@ Dependencies
 ---
 ZLSinusWaveView is a subclass of EZAudioPlot. It requires [EZAudio](https://github.com/syedhali/EZAudio).
 
+Copyright (c) 2014, Zhixuan Lai
+All rights reserved.
