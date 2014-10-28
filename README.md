@@ -3,7 +3,12 @@ ZLSinusWaveView
 
 A Siri like voice visualization view using EZAudio. Modified from [SISinusWaveView](https://github.com/raffael/SISinusWaveView) for iOS.
 
+###Preview
 ![preview](https://raw.githubusercontent.com/zhxnlai/ZLSinusWaveView/master/preview.gif)
+
+###Video
+[![SISinusWaveView](http://img.youtube.com/vi/31XCnpAX5mM/0.jpg)](http://www.youtube.com/watch?v=31XCnpAX5mM)
+
 
 Dependencies
 ---
