@@ -23,5 +23,6 @@ License
 ---
 ZLSinusWaveView is available under the BSD license.
 
-Copyright (c) 2014, Zhixuan Lai
-All rights reserved.
+- Copyright (c) 2014, Zhixuan Lai
+- Copyright (c) 2013 Raffael Hannemann 
+- All rights reserved.
