@@ -46,6 +46,7 @@
     _waves = 5;
     _phaseShift = -0.15;
     _density = 5.0;
+    _maxAmplitude = 0.5;
 }
 
 -(void)_refreshDisplay {
@@ -120,7 +121,7 @@
         CGFloat width = CGRectGetWidth(self.bounds);
         CGFloat mid = width /2.0;
         
-        const CGFloat maxAmplitude = halfHeight-4; // 4 corresponds to twice the stroke width
+        const CGFloat maxAmplitude = halfHeight*_maxAmplitude-4; // 4 corresponds to twice the stroke width
         
         // Progress is a value between 1.0 and -0.5, determined by the current wave idx, which is used to alter the wave's amplitude.
         CGFloat progress = 1.0-(CGFloat)i/_waves;

@@ -43,6 +43,9 @@
 /// Set to NO, if you want to stop the view to oscillate.
 @property (assign,nonatomic) BOOL oscillating;
 
+/// The maximum amplitude of the waveform in percent of the view height. Default: 0.5 (half).
+@property (assign,nonatomic) float maxAmplitude;
+
 /*
  * Color to use when drawing the waves
  * Default: white
