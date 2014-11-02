@@ -9,6 +9,11 @@ A Siri like voice visualization view using EZAudio. Modified from [SISinusWaveVi
 ###Video
 [![SISinusWaveView](http://img.youtube.com/vi/31XCnpAX5mM/0.jpg)](http://www.youtube.com/watch?v=31XCnpAX5mM)
 
+CocoaPods
+---
+You can install `ZLSinusWaveView` through CocoaPods adding the following to your Podfile:
+
+    pod 'ZLSinusWaveView'
 
 Dependencies
 ---
