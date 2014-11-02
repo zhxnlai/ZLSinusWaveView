@@ -15,6 +15,10 @@ You can install `ZLSinusWaveView` through CocoaPods adding the following to your
 
     pod 'ZLSinusWaveView'
 
+Usage
+---
+Check out the [demo app](https://github.com/zhxnlai/ZLSinusWaveView/tree/master/EZAudioPlayFileExample) for an example.
+
 Dependencies
 ---
 ZLSinusWaveView is a subclass of `EZAudioPlot`. It requires [EZAudio](https://github.com/syedhali/EZAudio).
