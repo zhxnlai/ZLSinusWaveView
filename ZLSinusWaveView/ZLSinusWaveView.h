@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Syed Haris Ali. All rights reserved.
 //
 
-#import "EZAudioPlot.h"
+#import "EZAudio/EZAudioPlot.h"
 
 @interface ZLSinusWaveView : EZAudioPlot
 
