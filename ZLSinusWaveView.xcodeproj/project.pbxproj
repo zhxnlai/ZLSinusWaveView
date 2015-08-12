@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		46FAACF41B7B2AF5007B3486 /* ZLSinusWaveView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */; };
+		46FAACF41B7B2AF5007B3486 /* ZLSinusWaveView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46FAACF51B7B2AF5007B3486 /* ZLSinusWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAACF31B7B2AF5007B3486 /* ZLSinusWaveView.m */; };
 		46FAACF71B7B2C49007B3486 /* EZAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FAACF61B7B2C49007B3486 /* EZAudio.framework */; };
 /* End PBXBuildFile section */
@@ -32,11 +32,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4654D51A1B7B34EB007C9145 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				46FAACF61B7B2C49007B3486 /* EZAudio.framework */,
+			);
+			name = Frameworks;
+			path = ZLSinusWaveView;
+			sourceTree = "<group>";
+		};
 		46FAACDD1B7B2AE9007B3486 = {
 			isa = PBXGroup;
 			children = (
 				46FAACE91B7B2AE9007B3486 /* ZLSinusWaveView */,
 				46FAACE81B7B2AE9007B3486 /* Products */,
+				4654D51A1B7B34EB007C9145 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,7 +61,6 @@
 		46FAACE91B7B2AE9007B3486 /* ZLSinusWaveView */ = {
 			isa = PBXGroup;
 			children = (
-				46FAACF61B7B2C49007B3486 /* EZAudio.framework */,
 				46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */,
 				46FAACF31B7B2AF5007B3486 /* ZLSinusWaveView.m */,
 				46FAACEC1B7B2AE9007B3486 /* Info.plist */,
