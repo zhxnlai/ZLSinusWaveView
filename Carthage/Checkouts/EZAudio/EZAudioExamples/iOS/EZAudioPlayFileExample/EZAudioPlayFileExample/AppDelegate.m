@@ -3,16 +3,18 @@
 //  EZAudioPlayFileExample
 //
 //  Created by Syed Haris Ali on 12/16/13.
-//  Copyright (c) 2013 Syed Haris Ali. All rights reserved.
+//  Copyright (c) 2015 Syed Haris Ali. All rights reserved.
 //
 
 #import "AppDelegate.h"
+
+#import <AVFoundation/AVFoundation.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Override point for customization after application launch.  
     return YES;
 }
 							

@@ -33,18 +33,39 @@
  */
 @interface CoreGraphicsWaveformViewController : NSViewController <EZMicrophoneDelegate>
 
+//------------------------------------------------------------------------------
 #pragma mark - Components
+//------------------------------------------------------------------------------
+
 /**
  The CoreGraphics based audio plot
  */
-@property (nonatomic,weak) IBOutlet EZAudioPlot *audioPlot;
+@property (nonatomic, weak) IBOutlet EZAudioPlot *audioPlot;
 
 /**
  The microphone component
  */
-@property (nonatomic,strong) EZMicrophone *microphone;
+@property (nonatomic, strong) EZMicrophone *microphone;
 
+/**
+ The microphone pop up button (contains the menu for choosing a microphone input)
+ */
+@property (nonatomic, weak) IBOutlet NSPopUpButton *microphoneInputPopUpButton;
+
+/**
+ The microphone input channel pop up button (contains the menu for choosing a microphone input channel)
+ */
+@property (nonatomic, weak) IBOutlet NSPopUpButton *microphoneInputChannelPopUpButton;
+
+/**
+ The checkbox button used to turn the microphone off/on
+ */
+@property (nonatomic, weak) IBOutlet NSButton *microphoneSwitch;
+
+//------------------------------------------------------------------------------
 #pragma mark - Actions
+//------------------------------------------------------------------------------
+
 /**
  Switches the plot drawing type between a buffer plot (visualizes the current stream of audio data from the update function) or a rolling plot (visualizes the audio data over time, this is the classic waveform look)
  */
