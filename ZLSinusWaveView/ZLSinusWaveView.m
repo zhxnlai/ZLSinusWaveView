@@ -100,18 +100,26 @@
     _phase += _phaseShift;
     _amplitude = fmax( fmin(_dampingAmplitude*20, 1.0), _idleAmplitude);
     
+    for (int i = 0; i < length; i++)
+    {
+        self.points[i].x = i;
+        self.points[i].y = data[i] * self.gain;
+    }
+    self.points[0].y = self.points[length - 1].y = 0.0f;
+    self.pointCount = length;
+    
     if (tick==0) {
-//        if( plotData != nil ){
-//            free(plotData);
-//        }
-//        
-//        plotData   = (CGPoint *)calloc(sizeof(CGPoint),length);
-//        plotLength = length;
-//        
-//        for(int i = 0; i < length; i++) {
-//            data[i]     = i == 0 ? 0 : data[i];
-//            plotData[i] = CGPointMake(i,data[i] * _gain);
-//        }
+        if( self.points != nil ){
+            free(self.points);
+        }
+        
+        self.points   = (CGPoint *)calloc(sizeof(CGPoint),length);
+        self.pointCount = length;
+        
+        for(int i = 0; i < length; i++) {
+            data[i]     = i == 0 ? 0 : data[i];
+            self.points[i] = CGPointMake(i,data[i] * _gain);
+        }
         
         [self _refreshDisplay];
     }
