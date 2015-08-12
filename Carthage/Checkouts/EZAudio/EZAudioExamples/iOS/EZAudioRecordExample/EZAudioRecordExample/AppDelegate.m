@@ -3,7 +3,7 @@
 //  EZAudioRecordExample
 //
 //  Created by Syed Haris Ali on 12/15/13.
-//  Copyright (c) 2015 Syed Haris Ali. All rights reserved.
+//  Copyright (c) 2013 Syed Haris Ali. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -14,7 +14,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
   // Override point for customization after application launch.
+  
+  // Remember to configure your audio session
+  AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+  NSError *err = NULL;
+  [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
+  if( err ){
+    NSLog(@"There was an error creating the audio session");
+  }
+  [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:NULL];
+  if( err ){
+    NSLog(@"There was an error sending the audio to the speakers");
+  }
+
   return YES;
 }
 							

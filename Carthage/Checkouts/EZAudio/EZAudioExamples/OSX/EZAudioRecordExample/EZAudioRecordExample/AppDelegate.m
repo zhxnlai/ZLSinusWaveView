@@ -28,7 +28,8 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{  
+{
+  
   // Swap in our view controller in the window's content view
   self.recordViewController = [[RecordViewController alloc] init];
   // Resize view controller to content view's current size

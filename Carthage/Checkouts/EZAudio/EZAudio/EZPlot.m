@@ -3,7 +3,7 @@
 //  EZAudio
 //
 //  Created by Syed Haris Ali on 11/24/13.
-//  Copyright (c) 2015 Syed Haris Ali. All rights reserved.
+//  Copyright (c) 2013 Syed Haris Ali. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +25,15 @@
 
 #import "EZPlot.h"
 
-@implementation EZPlot
+@interface EZPlot ()
 
-#pragma mark - Clearing
--(void)clear
-{
-  // Override in subclass
-}
+@end
+
+@implementation EZPlot
 
 #pragma mark - Get Samples
 -(void)updateBuffer:(float *)buffer
-     withBufferSize:(UInt32)bufferSize
-{
+     withBufferSize:(UInt32)bufferSize {
   // Override in subclass
 }
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,7 +10,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="-3" userLabel="Application"/>
         <menu title="AMainMenu" systemMenu="main" id="29">
             <items>
                 <menuItem title="EZAudioFFTExample" id="56">
@@ -648,17 +647,30 @@
             </items>
         </menu>
         <window title="EZAudioFFTExample" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="372">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="PCv-Jm-jzO" customClass="EZAudioPlot">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="PCv-Jm-jzO" secondAttribute="trailing" id="A2i-gs-EWe"/>
+                    <constraint firstItem="PCv-Jm-jzO" firstAttribute="leading" secondItem="372" secondAttribute="leading" id="Gex-TR-aqy"/>
+                    <constraint firstAttribute="bottom" secondItem="PCv-Jm-jzO" secondAttribute="bottom" id="Kqa-V4-EDP"/>
+                    <constraint firstItem="PCv-Jm-jzO" firstAttribute="top" secondItem="372" secondAttribute="top" id="MeC-7d-nwe"/>
+                </constraints>
             </view>
         </window>
         <customObject id="494" customClass="AppDelegate">
             <connections>
+                <outlet property="audioPlot" destination="PCv-Jm-jzO" id="aGl-Mf-G6W"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>

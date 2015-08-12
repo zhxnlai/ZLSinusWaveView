@@ -31,34 +31,29 @@
 #import "EZAudio.h"
 
 /**
+ Accelerate
+ */
+#import <Accelerate/Accelerate.h>
+
+/**
  The FFTViewController demonstrates how to use the Accelerate framework to calculate the real-time FFT of audio data provided by an EZAudioMicrophone.
  */
-@interface FFTViewController : NSViewController <EZMicrophoneDelegate, EZAudioFFTDelegate>
+@interface FFTViewController : NSViewController <EZMicrophoneDelegate>
 
 #pragma mark - Components
 /**
  EZAudioPlot for frequency plot
  */
-@property (nonatomic, weak) IBOutlet EZAudioPlot *audioPlotFreq;
+@property (nonatomic,weak) IBOutlet EZAudioPlot *audioPlotFreq;
 
 /**
  EZAudioPlot for time plot
  */
-@property (nonatomic, weak) IBOutlet EZAudioPlot *audioPlotTime;
+@property (nonatomic,weak) IBOutlet EZAudioPlotGL *audioPlotTime;
 
 /**
- A label used to display the maximum frequency (i.e. the frequency with the highest energy) calculated from the FFT.
+ Microphone
  */
-@property (nonatomic, weak) IBOutlet NSTextField *maxFrequencyLabel;
-
-/**
- The microphone used to get input.
- */
-@property (nonatomic, strong) EZMicrophone *microphone;
-
-/**
- Used to calculate a rolling FFT of the incoming audio data.
- */
-@property (nonatomic, strong) EZAudioFFTRolling *fft;
+@property (nonatomic,strong) EZMicrophone *microphone;
 
 @end

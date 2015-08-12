@@ -3,7 +3,7 @@
 //  EZAudio
 //
 //  Created by Syed Haris Ali on 9/2/13.
-//  Copyright (c) 2015 Syed Haris Ali. All rights reserved.
+//  Copyright (c) 2013 Syed Haris Ali. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,442 +24,273 @@
 //  THE SOFTWARE.
 
 #import "EZAudioPlot.h"
-#import "EZAudioDisplayLink.h"
 
-//------------------------------------------------------------------------------
-#pragma mark - Constants
-//------------------------------------------------------------------------------
+#import "EZAudio.h"
 
-UInt32 const kEZAudioPlotMaxHistoryBufferLength = 8192;
-UInt32 const kEZAudioPlotDefaultHistoryBufferLength = 512;
-UInt32 const EZAudioPlotDefaultHistoryBufferLength = 512;
-UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength = 8192;
+@interface EZAudioPlot () {
+//  BOOL             _hasData;
+//  TPCircularBuffer _historyBuffer;
 
-//------------------------------------------------------------------------------
-#pragma mark - EZAudioPlot (Interface Extension)
-//------------------------------------------------------------------------------
-
-@interface EZAudioPlot () <EZAudioDisplayLinkDelegate>
-@property (nonatomic, strong) EZAudioDisplayLink *displayLink;
-@property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
-@property (nonatomic, assign) CGPoint            *points;
-@property (nonatomic, assign) UInt32              pointCount;
+  // Rolling History
+  BOOL    _setMaxLength;
+  float   *_scrollHistory;
+  int     _scrollHistoryIndex;
+  UInt32  _scrollHistoryLength;
+  BOOL    _changingHistorySize;
+  
+  CGPoint *_sampleData;
+  UInt32  _sampleLength;
+}
 @end
-
-//------------------------------------------------------------------------------
-#pragma mark - EZAudioPlot (Implementation)
-//------------------------------------------------------------------------------
 
 @implementation EZAudioPlot
+@synthesize backgroundColor = _backgroundColor;
+@synthesize color           = _color;
+@synthesize gain            = _gain;
+@synthesize plotType        = _plotType;
+@synthesize shouldFill      = _shouldFill;
+@synthesize shouldMirror    = _shouldMirror;
 
-//------------------------------------------------------------------------------
-#pragma mark - Dealloc
-//------------------------------------------------------------------------------
-
-- (void)dealloc
-{
-    [EZAudioUtilities freeHistoryInfo:self.historyInfo];
-    free(self.points);
-}
-
-//------------------------------------------------------------------------------
 #pragma mark - Initialization
-//------------------------------------------------------------------------------
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        [self initPlot];
-    }
-    return self;
+-(id)init {
+  self = [super init];
+  if(self){
+    [self initPlot];
+  }
+  return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        [self initPlot];
-    }
-    return self;
+-(id)initWithCoder:(NSCoder *)aDecoder {
+  self = [super initWithCoder:aDecoder];
+  if(self){
+    [self initPlot];
+  }
+  return self;
 }
 
 #if TARGET_OS_IPHONE
-- (id)initWithFrame:(CGRect)frameRect
+-(id)initWithFrame:(CGRect)frameRect {
 #elif TARGET_OS_MAC
-- (id)initWithFrame:(NSRect)frameRect
+-(id)initWithFrame:(NSRect)frameRect {
 #endif
-{
-    self = [super initWithFrame:frameRect];
-    if (self)
-    {
-        [self initPlot];
-    }
-    return self;
+  self = [super initWithFrame:frameRect];
+  if(self){
+    [self initPlot];
+  }
+  return self;
 }
-
+  
+-(void)initPlot {
 #if TARGET_OS_IPHONE
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    self.waveformLayer.frame = self.bounds;
-    [self redraw];
-    [CATransaction commit];
-}
+  self.backgroundColor = [UIColor blackColor];
+  self.color           = [UIColor colorWithHue:0 saturation:1.0 brightness:1.0 alpha:1.0];
 #elif TARGET_OS_MAC
-- (void)layout
-{
-    [super layout];
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    self.waveformLayer.frame = self.bounds;
-    [self redraw];
-    [CATransaction commit];
-}
+  self.backgroundColor = [NSColor blackColor];
+  self.color           = [NSColor colorWithCalibratedHue:0 saturation:1.0 brightness:1.0 alpha:1.0];
 #endif
-
-- (void)initPlot
-{
-    self.shouldCenterYAxis = YES;
-    self.shouldOptimizeForRealtimePlot = YES;
-    self.gain = 1.0;
-    self.plotType = EZPlotTypeBuffer;
-    self.shouldMirror = NO;
-    self.shouldFill = NO;
-    
-    // Setup history window
-    [self resetHistoryBuffers];
-    
-    self.waveformLayer = [EZAudioPlotWaveformLayer layer];
-    self.waveformLayer.frame = self.bounds;
-    self.waveformLayer.lineWidth = 1.0f;
-    self.waveformLayer.fillColor = nil;
-    self.waveformLayer.backgroundColor = nil;
-    self.waveformLayer.opaque = YES;
-    
-#if TARGET_OS_IPHONE
-    self.color = [UIColor colorWithHue:0 saturation:1.0 brightness:1.0 alpha:1.0]; 
-#elif TARGET_OS_MAC
-    self.color = [NSColor colorWithCalibratedHue:0 saturation:1.0 brightness:1.0 alpha:1.0];
-    self.wantsLayer = YES;
-    self.layerContentsRedrawPolicy = NSViewLayerContentsRedrawOnSetNeedsDisplay;
-#endif
-    self.backgroundColor = nil;
-    [self.layer insertSublayer:self.waveformLayer atIndex:0];
-    
-    //
-    // Allow subclass to initialize plot
-    //
-    [self setupPlot];
-    
-    self.points = calloc(EZAudioPlotDefaultMaxHistoryBufferLength, sizeof(CGPoint));
-    self.pointCount = [self initialPointCount];
-    [self redraw];
+  self.gain            = 1.0;
+  self.plotType        = EZPlotTypeRolling;
+  self.shouldMirror    = NO;
+  self.shouldFill      = NO;
+  _scrollHistory       = NULL;
+  _scrollHistoryLength = kEZAudioPlotDefaultHistoryBufferLength;
 }
-
-//------------------------------------------------------------------------------
-
-- (void)setupPlot
-{
-    //
-    // Override in subclass
-    //
-}
-
-//------------------------------------------------------------------------------
-#pragma mark - Setup
-//------------------------------------------------------------------------------
-
-- (void)resetHistoryBuffers
-{
-    //
-    // Clear any existing data
-    //
-    if (self.historyInfo)
-    {
-        [EZAudioUtilities freeHistoryInfo:self.historyInfo];
-    }
-    
-    self.historyInfo = [EZAudioUtilities historyInfoWithDefaultLength:[self defaultRollingHistoryLength]
-                                                        maximumLength:[self maximumRollingHistoryLength]];
-}
-
-//------------------------------------------------------------------------------
+  
 #pragma mark - Setters
-//------------------------------------------------------------------------------
-
-- (void)setBackgroundColor:(id)backgroundColor
-{
-    [super setBackgroundColor:backgroundColor];
-    self.layer.backgroundColor = [backgroundColor CGColor];
+-(void)setBackgroundColor:(id)backgroundColor {
+  _backgroundColor = backgroundColor;
+  [self _refreshDisplay];
+}
+  
+-(void)setColor:(id)color {
+  _color = color;
+  [self _refreshDisplay];
+}
+  
+-(void)setGain:(float)gain {
+  _gain = gain;
+  [self _refreshDisplay];
 }
 
-//------------------------------------------------------------------------------
-
-- (void)setColor:(id)color
-{
-    [super setColor:color];
-    self.waveformLayer.strokeColor = [color CGColor];
-    if (self.shouldFill)
-    {
-        self.waveformLayer.fillColor = [color CGColor];
-    }
+-(void)setPlotType:(EZPlotType)plotType {
+  _plotType = plotType;
+  [self _refreshDisplay];
 }
 
-//------------------------------------------------------------------------------
-
-- (void)setShouldOptimizeForRealtimePlot:(BOOL)shouldOptimizeForRealtimePlot
-{
-    _shouldOptimizeForRealtimePlot = shouldOptimizeForRealtimePlot;
-    if (shouldOptimizeForRealtimePlot && !self.displayLink)
-    {
-        self.displayLink = [EZAudioDisplayLink displayLinkWithDelegate:self];
-        [self.displayLink start];
-    }
-    else
-    {
-        [self.displayLink stop];
-        self.displayLink = nil;
-    }
+-(void)setShouldFill:(BOOL)shouldFill {
+  _shouldFill = shouldFill;
+  [self _refreshDisplay];
 }
 
-//------------------------------------------------------------------------------
-
-- (void)setShouldFill:(BOOL)shouldFill
-{
-    [super setShouldFill:shouldFill];
-    self.waveformLayer.fillColor = shouldFill ? [self.color CGColor] : nil;
+-(void)setShouldMirror:(BOOL)shouldMirror {
+  _shouldMirror = shouldMirror;
+  [self _refreshDisplay];
 }
-
-//------------------------------------------------------------------------------
-#pragma mark - Drawing
-//------------------------------------------------------------------------------
-
-- (void)clear
-{
-    if (self.pointCount > 0)
-    {
-        [self resetHistoryBuffers];
-        float data[self.pointCount];
-        memset(data, 0, self.pointCount * sizeof(float));
-        [self setSampleData:data length:self.pointCount];
-        [self redraw];
-    }
-}
-
-//------------------------------------------------------------------------------
-
-- (void)redraw
-{
-    EZRect frame = [self.waveformLayer frame];
-    CGPathRef path = [self createPathWithPoints:self.points
-                                     pointCount:self.pointCount
-                                         inRect:frame];
-    if (self.shouldOptimizeForRealtimePlot)
-    {
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        self.waveformLayer.path = path;
-        [CATransaction commit];
-    }
-    else
-    {
-        self.waveformLayer.path = path;
-    }
-    CGPathRelease(path);
-}
-
-//------------------------------------------------------------------------------
-
-- (CGPathRef)createPathWithPoints:(CGPoint *)points
-                  pointCount:(UInt32)pointCount
-                      inRect:(EZRect)rect
-{
-    CGMutablePathRef path = NULL;
-    if (pointCount > 0)
-    {
-        path = CGPathCreateMutable();
-        double xscale = (rect.size.width) / ((float)self.pointCount);
-        double halfHeight = floor(rect.size.height / 2.0);
-        int deviceOriginFlipped = [self isDeviceOriginFlipped] ? -1 : 1;
-        CGAffineTransform xf = CGAffineTransformIdentity;
-        CGFloat translateY = 0.0f;
-        if (!self.shouldCenterYAxis)
-        {
+  
+-(void)_refreshDisplay {
 #if TARGET_OS_IPHONE
-            translateY = CGRectGetHeight(rect);
+  [self setNeedsDisplay];
 #elif TARGET_OS_MAC
-            translateY = 0.0f;
+  [self setNeedsDisplay:YES];
 #endif
-        }
-        else
-        {
-            translateY = halfHeight + rect.origin.y;
-        }
-        xf = CGAffineTransformTranslate(xf, 0.0, translateY);
-        double yScaleFactor = halfHeight;
-        if (!self.shouldCenterYAxis)
-        {
-            yScaleFactor = 2.0 * halfHeight;
-        }
-        xf = CGAffineTransformScale(xf, xscale, deviceOriginFlipped * yScaleFactor);
-        CGPathAddLines(path, &xf, self.points, self.pointCount);
-        if (self.shouldMirror)
-        {
-            xf = CGAffineTransformScale(xf, 1.0f, -1.0f);
-            CGPathAddLines(path, &xf, self.points, self.pointCount);
-        }
-        if (self.shouldFill)
-        {
-            CGPathCloseSubpath(path);
-        }
-    }
-    return path;
 }
-
-//------------------------------------------------------------------------------
+  
+#pragma mark - Get Data
+- (void)_setSampleData:(float *)the_sampleData
+                length:(int)length {
+  if( _sampleData != nil ){
+    free(_sampleData);
+  }
+  
+  _sampleData   = (CGPoint *)calloc(sizeof(CGPoint),length);
+  _sampleLength = length;
+  
+  for(int i = 0; i < length; i++) {
+    the_sampleData[i] = i == 0 ? 0 : the_sampleData[i];
+    _sampleData[i]    = CGPointMake(i,the_sampleData[i] * _gain);
+  }
+    
+  [self _refreshDisplay];
+}
+  
 #pragma mark - Update
-//------------------------------------------------------------------------------
-
-- (void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize
-{
-    // append the buffer to the history
-    [EZAudioUtilities appendBufferRMS:buffer
-                       withBufferSize:bufferSize
-                        toHistoryInfo:self.historyInfo];
+-(void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize {
+  if( _plotType == EZPlotTypeRolling ){
     
-    // copy samples
-    switch (self.plotType)
-    {
-        case EZPlotTypeBuffer:
-            [self setSampleData:buffer
-                         length:bufferSize];
-            break;
-        case EZPlotTypeRolling:
-            
-            [self setSampleData:self.historyInfo->buffer
-                         length:self.historyInfo->bufferSize];
-            break;
-        default:
-            break;
-    }
+    // Update the scroll history datasource
+    [EZAudio updateScrollHistory:&_scrollHistory
+                      withLength:_scrollHistoryLength
+                         atIndex:&_scrollHistoryIndex
+                      withBuffer:buffer
+                  withBufferSize:bufferSize
+            isResolutionChanging:&_changingHistorySize];
+
+    // 
+    [self _setSampleData:_scrollHistory
+                  length:(!_setMaxLength?kEZAudioPlotMaxHistoryBufferLength:_scrollHistoryLength)];
+    _setMaxLength = YES;
     
-    // update drawing
-    if (!self.shouldOptimizeForRealtimePlot)
-    {
-        [self redraw];
-    }
+  }
+  else if( _plotType == EZPlotTypeBuffer ){
+    
+    [self _setSampleData:buffer
+                  length:bufferSize];
+    
+  }
+  else {
+    
+    // Unknown plot type
+    
+  }
 }
-
-//------------------------------------------------------------------------------
-
-- (void)setSampleData:(float *)data length:(int)length
-{
-    CGPoint *points = self.points;
-    for (int i = 0; i < length; i++)
-    {
-        points[i].x = i;
-        points[i].y = data[i] * self.gain;
-    }
-    points[0].y = points[length - 1].y = 0.0f;
-    self.pointCount = length;
-}
-
-//------------------------------------------------------------------------------
-#pragma mark - Adjusting History Resolution
-//------------------------------------------------------------------------------
-
-- (int)rollingHistoryLength
-{
-    return self.historyInfo->bufferSize;
-}
-
-//------------------------------------------------------------------------------
-
-- (int)setRollingHistoryLength:(int)historyLength
-{
-    self.historyInfo->bufferSize = MIN(EZAudioPlotDefaultMaxHistoryBufferLength, historyLength);
-    return self.historyInfo->bufferSize;
-}
-
-//------------------------------------------------------------------------------
-#pragma mark - Subclass
-//------------------------------------------------------------------------------
-
-- (int)defaultRollingHistoryLength
-{
-    return EZAudioPlotDefaultHistoryBufferLength;
-}
-
-//------------------------------------------------------------------------------
-
-- (int)initialPointCount
-{
-    return 100;
-}
-
-//------------------------------------------------------------------------------
-
-- (int)maximumRollingHistoryLength
-{
-    return EZAudioPlotDefaultMaxHistoryBufferLength;
-}
-
-//------------------------------------------------------------------------------
-#pragma mark - Utility
-//------------------------------------------------------------------------------
-
-- (BOOL)isDeviceOriginFlipped
-{
-    BOOL isDeviceOriginFlipped = NO;
+  
+#pragma mark - Drawing
+  
 #if TARGET_OS_IPHONE
-    isDeviceOriginFlipped = YES;
+- (void)drawRect:(CGRect)rect
+{
+  CGContextRef ctx = UIGraphicsGetCurrentContext();
+  CGContextSaveGState(ctx);
+  CGRect frame = self.bounds;
 #elif TARGET_OS_MAC
+  - (void)drawRect:(NSRect)dirtyRect
+  {
+    [[NSGraphicsContext currentContext] saveGraphicsState];
+    NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
+    CGContextRef ctx = (CGContextRef) [nsGraphicsContext graphicsPort];
+    NSRect frame = self.bounds;
 #endif
-    return isDeviceOriginFlipped;
-}
-
-//------------------------------------------------------------------------------
-#pragma mark - EZAudioDisplayLinkDelegate
-//------------------------------------------------------------------------------
-
-- (void)displayLinkNeedsDisplay:(EZAudioDisplayLink *)displayLink
-{
-    [self redraw];
-}
-
-//------------------------------------------------------------------------------
-
-@end
-
-////------------------------------------------------------------------------------
-#pragma mark - EZAudioPlotWaveformLayer (Implementation)
-////------------------------------------------------------------------------------
-
-@implementation EZAudioPlotWaveformLayer
-
-- (id<CAAction>)actionForKey:(NSString *)event
-{
-    if ([event isEqualToString:@"path"])
-    {
-        if ([CATransaction disableActions])
-        {
-            return nil;
-        }
-        else
-        {
-            CABasicAnimation *animation = [CABasicAnimation animation];
-            animation.timingFunction = [CATransaction animationTimingFunction];
-            animation.duration = [CATransaction animationDuration];
-            return animation;
-        }
-        return nil;
+    
+#if TARGET_OS_IPHONE
+    // Set the background color
+    [(UIColor*)self.backgroundColor set];
+    UIRectFill(frame);
+    // Set the waveform line color
+    [(UIColor*)self.color set];
+#elif TARGET_OS_MAC
+    [(NSColor*)self.backgroundColor set];
+    NSRectFill(frame);
+    [(NSColor*)self.color set];
+#endif
+    
+    if(_sampleLength > 0) {
+      
+      _sampleData[_sampleLength-1] = CGPointMake(_sampleLength-1,0.0f);
+      
+      CGMutablePathRef halfPath = CGPathCreateMutable();
+      CGPathAddLines(halfPath,
+                     NULL,
+                     _sampleData,
+                     _sampleLength);
+      CGMutablePathRef path = CGPathCreateMutable();
+      
+      double xscale = (frame.size.width) / (float)_sampleLength;
+      double halfHeight = floor( frame.size.height / 2.0 );
+      
+      // iOS drawing origin is flipped by default so make sure we account for that
+      int deviceOriginFlipped = 1;
+#if TARGET_OS_IPHONE
+      deviceOriginFlipped = -1;
+#elif TARGET_OS_MAC
+      deviceOriginFlipped = 1;
+#endif
+      
+      CGAffineTransform xf = CGAffineTransformIdentity;
+      xf = CGAffineTransformTranslate( xf, frame.origin.x , halfHeight + frame.origin.y );
+      xf = CGAffineTransformScale( xf, xscale, deviceOriginFlipped*halfHeight );
+      CGPathAddPath( path, &xf, halfPath );
+      
+      if( self.shouldMirror ){
+        xf = CGAffineTransformIdentity;
+        xf = CGAffineTransformTranslate( xf, frame.origin.x , halfHeight + frame.origin.y);
+        xf = CGAffineTransformScale( xf, xscale, -deviceOriginFlipped*(halfHeight));
+        CGPathAddPath( path, &xf, halfPath );
+      }
+      CGPathRelease( halfPath );
+      
+      // Now, path contains the full waveform path.
+      CGContextAddPath(ctx, path);
+      
+      // Make this color customizable
+      if( self.shouldFill ){
+        CGContextFillPath(ctx);
+      }
+      else {
+        CGContextStrokePath(ctx);
+      }
+      CGPathRelease(path);
     }
-    return [super actionForKey:event];
+    
+#if TARGET_OS_IPHONE
+    CGContextRestoreGState(ctx);
+#elif TARGET_OS_MAC
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
+#endif
+}
+  
+#pragma mark - Adjust Resolution
+-(int)setRollingHistoryLength:(int)historyLength {
+  historyLength = MIN(historyLength,kEZAudioPlotMaxHistoryBufferLength);
+  size_t floatByteSize = sizeof(float);
+  _changingHistorySize = YES;
+  if( _scrollHistoryLength != historyLength ){
+    _scrollHistoryLength = historyLength;
+  }
+  _scrollHistory = realloc(_scrollHistory,_scrollHistoryLength*floatByteSize);
+  if( _scrollHistoryIndex < _scrollHistoryLength ){
+    memset(&_scrollHistory[_scrollHistoryIndex],
+           0,
+           (_scrollHistoryLength-_scrollHistoryIndex)*floatByteSize);
+  }
+  else {
+    _scrollHistoryIndex = _scrollHistoryLength;
+  }
+  _changingHistorySize = NO;
+  return historyLength;
+}
+    
+-(void)dealloc {
+  free(_sampleData);
 }
 
 @end
