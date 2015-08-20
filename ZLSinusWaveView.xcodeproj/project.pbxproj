@@ -1,0 +1,308 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		46FAACF41B7B2AF5007B3486 /* ZLSinusWaveView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		46FAACF51B7B2AF5007B3486 /* ZLSinusWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAACF31B7B2AF5007B3486 /* ZLSinusWaveView.m */; };
+		46FAACF71B7B2C49007B3486 /* EZAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46FAACF61B7B2C49007B3486 /* EZAudio.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		46FAACE71B7B2AE9007B3486 /* ZLSinusWaveView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZLSinusWaveView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FAACEC1B7B2AE9007B3486 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLSinusWaveView.h; sourceTree = "<group>"; };
+		46FAACF31B7B2AF5007B3486 /* ZLSinusWaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLSinusWaveView.m; sourceTree = "<group>"; };
+		46FAACF61B7B2C49007B3486 /* EZAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EZAudio.framework; path = Carthage/Build/iOS/EZAudio.framework; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46FAACE31B7B2AE9007B3486 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FAACF71B7B2C49007B3486 /* EZAudio.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4654D51A1B7B34EB007C9145 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				46FAACF61B7B2C49007B3486 /* EZAudio.framework */,
+			);
+			name = Frameworks;
+			path = ZLSinusWaveView;
+			sourceTree = "<group>";
+		};
+		46FAACDD1B7B2AE9007B3486 = {
+			isa = PBXGroup;
+			children = (
+				46FAACE91B7B2AE9007B3486 /* ZLSinusWaveView */,
+				46FAACE81B7B2AE9007B3486 /* Products */,
+				4654D51A1B7B34EB007C9145 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		46FAACE81B7B2AE9007B3486 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				46FAACE71B7B2AE9007B3486 /* ZLSinusWaveView.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		46FAACE91B7B2AE9007B3486 /* ZLSinusWaveView */ = {
+			isa = PBXGroup;
+			children = (
+				46FAACF21B7B2AF5007B3486 /* ZLSinusWaveView.h */,
+				46FAACF31B7B2AF5007B3486 /* ZLSinusWaveView.m */,
+				46FAACEC1B7B2AE9007B3486 /* Info.plist */,
+			);
+			path = ZLSinusWaveView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		46FAACE41B7B2AE9007B3486 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FAACF41B7B2AF5007B3486 /* ZLSinusWaveView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		46FAACE61B7B2AE9007B3486 /* ZLSinusWaveView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46FAACEF1B7B2AE9007B3486 /* Build configuration list for PBXNativeTarget "ZLSinusWaveView" */;
+			buildPhases = (
+				46FAACE21B7B2AE9007B3486 /* Sources */,
+				46FAACE31B7B2AE9007B3486 /* Frameworks */,
+				46FAACE41B7B2AE9007B3486 /* Headers */,
+				46FAACE51B7B2AE9007B3486 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZLSinusWaveView;
+			productName = ZLSinusWaveView;
+			productReference = 46FAACE71B7B2AE9007B3486 /* ZLSinusWaveView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46FAACDE1B7B2AE9007B3486 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Andrew Breckenridge";
+				TargetAttributes = {
+					46FAACE61B7B2AE9007B3486 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 46FAACE11B7B2AE9007B3486 /* Build configuration list for PBXProject "ZLSinusWaveView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 46FAACDD1B7B2AE9007B3486;
+			productRefGroup = 46FAACE81B7B2AE9007B3486 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				46FAACE61B7B2AE9007B3486 /* ZLSinusWaveView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		46FAACE51B7B2AE9007B3486 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		46FAACE21B7B2AE9007B3486 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FAACF51B7B2AF5007B3486 /* ZLSinusWaveView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		46FAACED1B7B2AE9007B3486 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		46FAACEE1B7B2AE9007B3486 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		46FAACF01B7B2AE9007B3486 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = ZLSinusWaveView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tfw.ZLSinusWaveView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		46FAACF11B7B2AE9007B3486 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = ZLSinusWaveView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tfw.ZLSinusWaveView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		46FAACE11B7B2AE9007B3486 /* Build configuration list for PBXProject "ZLSinusWaveView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FAACED1B7B2AE9007B3486 /* Debug */,
+				46FAACEE1B7B2AE9007B3486 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46FAACEF1B7B2AE9007B3486 /* Build configuration list for PBXNativeTarget "ZLSinusWaveView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FAACF01B7B2AE9007B3486 /* Debug */,
+				46FAACF11B7B2AE9007B3486 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46FAACDE1B7B2AE9007B3486 /* Project object */;
+}

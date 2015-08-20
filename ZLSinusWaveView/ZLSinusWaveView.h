@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Syed Haris Ali. All rights reserved.
 //
 
-#import "EZAudio/EZAudioPlot.h"
+#import <EZAudio/EZAudio.h>
 
-@interface ZLSinusWaveView : EZAudioPlot
+@interface ZLSinusWaveView : EZAudioPlot <EZAudioDisplayLinkDelegate>
 
 /// The amplitude that is used when the incoming microphone amplitude is near zero. Setting a value greater 0 provides a more vivid visualization.
 @property (assign,nonatomic) float idleAmplitude;
